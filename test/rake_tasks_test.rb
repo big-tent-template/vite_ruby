@@ -21,6 +21,7 @@ class RakeTasksTest < ViteRuby::Test
   end
 
   def test_rake_vite_install_dependencies_in_non_production_environments
+    skip 'Yarn >= 2 does not create node_modules' unless ViteRuby.commands.legacy_yarn_version?
     assert_includes test_app_dev_dependencies, "right-pad"
 
     ViteRuby.commands.send(:with_node_env, "test") do
@@ -34,6 +35,7 @@ class RakeTasksTest < ViteRuby::Test
   end
 
   def test_rake_vite_install_dependencies_in_production_environment
+    skip 'Yarn >= 2 does not create node_modules' unless ViteRuby.commands.legacy_yarn_version?
     ViteRuby.commands.send(:with_node_env, "production") do
       Dir.chdir(path_to_test_app) do
         `bundle exec rake vite:install_dependencies`
